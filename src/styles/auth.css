@@ -1,0 +1,231 @@
+/* ========== AUTH MODAL (SIGN IN / SIGN UP) ========== */
+
+.dwella-auth-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: radial-gradient(circle at top left, rgba(106, 77, 255, 0.25), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(106, 77, 255, 0.2), transparent 60%),
+              rgba(10, 10, 20, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dwella-auth-modal {
+  position: relative;
+  width: 480px;
+  max-width: 94vw;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  padding: 28px 28px 22px;
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter", sans-serif;
+}
+
+.dwella-auth-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #747499;
+  padding: 2px;
+  transition: transform 0.12s ease, color 0.12s ease;
+}
+
+.dwella-auth-close:hover {
+  transform: scale(1.07);
+  color: #111827;
+}
+
+.dwella-auth-title {
+  font-size: 22px;
+  font-weight: 650;
+  margin-bottom: 22px;
+  color: #111322;
+  letter-spacing: -0.02em;
+}
+
+/* Social buttons */
+
+.dwella-auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.dwella-auth-btn {
+  width: 100%;
+  border-radius: 999px;
+  padding: 11px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.dwella-auth-btn .icon {
+  width: 20px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.dwella-auth-btn-outline {
+  background: #ffffff;
+  border-color: #e2e4f0;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.dwella-auth-btn-outline:hover {
+  border-color: #cdd0e0;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  transform: translateY(-0.5px);
+}
+
+.dwella-auth-btn-purple-soft {
+  background: linear-gradient(135deg, #6a4dff, #8f6bff);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(106, 77, 255, 0.45);
+}
+
+.dwella-auth-btn-purple-soft:hover {
+  filter: brightness(1.03);
+  box-shadow: 0 16px 40px rgba(106, 77, 255, 0.55);
+  transform: translateY(-0.5px);
+}
+
+/* Divider */
+
+.dwella-auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 10px 0 14px;
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.dwella-auth-divider::before,
+.dwella-auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.2),
+    rgba(148, 163, 184, 0.05)
+  );
+}
+
+.dwella-auth-divider span {
+  padding: 0 10px;
+}
+
+/* Form */
+
+.dwella-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.dwella-auth-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dwella-auth-form input {
+  border-radius: 999px;
+  border: 1px solid #e2e4f0;
+  padding: 9px 13px;
+  background: #f9fafb;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  transition: all 0.14s ease;
+}
+
+.dwella-auth-form input::placeholder {
+  color: #9ca3af;
+}
+
+.dwella-auth-form input:focus {
+  background: #ffffff;
+  border-color: #6a4dff;
+  box-shadow:
+    0 0 0 1px rgba(106, 77, 255, 0.15),
+    0 8px 18px rgba(106, 77, 255, 0.15);
+}
+
+.dwella-auth-btn-email {
+  margin-top: 4px;
+  background: #111827;
+  color: #f9fafb;
+  border-radius: 999px;
+  padding: 11px 18px;
+}
+
+.dwella-auth-btn-email:hover {
+  background: #020617;
+}
+
+/* Error & legal text */
+
+.dwella-auth-error {
+  font-size: 12px;
+  color: #b91c1c;
+  margin-top: 2px;
+}
+
+.dwella-auth-legal,
+.dwella-auth-switch {
+  margin-top: 9px;
+  font-size: 11px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.dwella-auth-legal a {
+  color: #6a4dff;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.dwella-auth-switch button {
+  background: none;
+  border: none;
+  color: #6a4dff;
+  cursor: pointer;
+  padding: 0;
+  font-size: 11px;
+}
+
+/* Responsive */
+
+@media (max-width: 540px) {
+  .dwella-auth-modal {
+    width: 100%;
+    margin: 0 12px;
+    padding: 22px 18px 18px;
+    border-radius: 20px;
+  }
+
+  .dwella-auth-row {
+    flex-direction: column;
+  }
+}
