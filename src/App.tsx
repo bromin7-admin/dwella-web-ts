@@ -1,3 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CopilotChat from "./components/CopilotChat";
+import AuthModal from "./components/AuthModal";
+import FeedbackButtons from "./components/FeedbackButtons";
+import Suggestions from "./components/Suggestions";
+
 export default function App() {
-  return <div>Dwella WebApp — Part 1 Loaded Successfully</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<CopilotChat />} />
+        <Route path="/auth" element={<AuthModal />} />
+        <Route path="/suggestions" element={<Suggestions />} />
+        <Route path="/feedback" element={<FeedbackButtons />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
