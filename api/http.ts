@@ -1,12 +1,13 @@
 import axios, { AxiosError } from "axios";
 
+// Use Vite env OR fallback to Bolt proxy
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://api.stage.dwella.co/v2";
+  import.meta.env.VITE_API_BASE_URL || "/api/proxy/v2";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   }
 });
 
@@ -20,7 +21,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Simple 401 handler: clear tokens (backend does not expose refresh endpoint yet)
+// Simple 401 handler
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
