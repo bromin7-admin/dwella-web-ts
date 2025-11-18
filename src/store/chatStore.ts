@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { api } from "../api/http";
+import { api } from "../../api/http";
 
 export type ChatRole = "user" | "assistant" | "error";
 

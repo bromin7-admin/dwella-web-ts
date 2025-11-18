@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import { sendFeedback } from "../api/feedback";
+import { sendFeedback } from "../../api/feedback";
 
 interface Props {
   messageId?: string;
