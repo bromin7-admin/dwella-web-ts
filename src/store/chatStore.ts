@@ -68,7 +68,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || "http://api.stage.dwella.co/v2"}/chat_room/copilot/stream`,
+        `${import.meta.env.VITE_API_BASE_URL || "/api/proxy/v2"}/chat_room/copilot/stream`,
         {
           method: "POST",
           headers: {
