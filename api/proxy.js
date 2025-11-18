@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   try {
-    const base = "http://api.stage.dwella.co";
+    const base = "/api/proxy";
     const targetUrl = base + req.url.replace("/api/proxy", "");
 
     const apiRes = await fetch(targetUrl, {
