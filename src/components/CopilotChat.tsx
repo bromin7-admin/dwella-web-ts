@@ -38,7 +38,7 @@ export const CopilotChat: React.FC = () => {
       <h2 className="copilot-header">AI Mortgage Copilot</h2>
 
       <div className="messages-wrapper" ref={scrollRef}>
-        {messages.map((m) => (
+     {(messages ?? []).map((m) => (
           <MessageBubble
             key={m.id}
             role={m.role}
