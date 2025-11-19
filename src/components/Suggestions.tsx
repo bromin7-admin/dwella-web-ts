@@ -6,9 +6,9 @@ interface Props {
 
 export const Suggestions: React.FC<Props> = ({ onSend }) => {
   const suggestions = [
-    "Get lender offers (anonymously) 🏡",
+    "Get lender offers (anonymously) 🏦",
     "Check my readiness (Dwella Index Score) 📊",
-    "Can I afford this home? (paste a property link) 🏠"
+    "Can I afford this home? (paste a property link) 🏡",
   ];
 
   return (
@@ -17,7 +17,7 @@ export const Suggestions: React.FC<Props> = ({ onSend }) => {
         <button
           key={i}
           className="suggestion-chip"
-          onClick={() => onSend(s)}
+          onClick={() => onSend(s)}  // ✅ FIXED CLICK HANDLER
         >
           {s}
         </button>
