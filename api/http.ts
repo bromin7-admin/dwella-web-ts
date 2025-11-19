@@ -1,8 +1,7 @@
 import axios, { AxiosError } from "axios";
 
 // Use Vite env OR fallback to Bolt proxy
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "/api/proxy/v2";
+const API_BASE_URL = "/api";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
