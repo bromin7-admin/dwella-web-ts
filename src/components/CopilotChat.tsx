@@ -1,36 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useChatStore } from "../store/chatStore";
-import { MessageBubble } from "./MessageBubble";
 import { Suggestions } from "./Suggestions";
+import MessageBubble from "./MessageBubble";
 
-export const CopilotChat: React.FC = () => {
-  const { messages, sendMessage, loadHistory, loading } = useChatStore();
-  const [input, setInput] = useState("");
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    void loadHistory();
-  }, [loadHistory]);
+export default function CopilotChat() {
+  const { messages, loading, loadHistory, sendMessage } = useChatStore();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth"
-      });
-    }
-  }, [messages, loading]);
+    loadHistory();
+  }, []);
 
-  const handleSend = (text?: string) => {
-    const toSend = (text ?? input).trim();
-    if (!toSend) return;
-    void sendMessage(toSend);
-    setInput("");
-  };
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
+  }, [messages]);
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleSend();
+  const handleSend = (text: string) => {
+    sendMessage(text);
   };
 
   return (
@@ -38,7 +24,7 @@ export const CopilotChat: React.FC = () => {
       <h2 className="copilot-header">AI Mortgage Copilot</h2>
 
       <div className="messages-wrapper" ref={scrollRef}>
-     {(messages ?? []).map((m) => (
+        {messages?.map((m) => (
           <MessageBubble
             key={m.id}
             role={m.role}
@@ -49,25 +35,12 @@ export const CopilotChat: React.FC = () => {
 
         {loading && (
           <div className="thinking">
-            <span className="spinner" />
-            Thinking…
+            <span className="spinner" /> Thinking…
           </div>
         )}
       </div>
 
       <Suggestions onSend={handleSend} />
-
-      <form className="input-bar" onSubmit={onSubmit}>
-        <input
-          className="input-field"
-          placeholder="Ask Dwella, your homebuying guide…"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button className="input-send" type="submit">
-          ➤
-        </button>
-      </form>
     </div>
   );
-};
+}
