@@ -19,16 +19,18 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
-  messages: [],
+  messages: [],          // ✅ ALWAYS an array
   loading: false,
   historyLoaded: false,
 
   loadHistory: async () => {
     if (get().historyLoaded) return;
+
     try {
       const res = await api.get("/chat_room/copilot", {
         params: { limit: 20, page: 0 }
       });
+
       const body = res.data as {
         meta: { total_count: number };
         data: Array<{
@@ -37,7 +39,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         }>;
       };
 
-      const messages: ChatMessage[] = body.data.map((item) => ({
+      const messages: ChatMessage[] = (body?.data ?? []).map((item) => ({
         id: item.chats.id,
         role: item.sender && item.sender.id ? "user" : "assistant",
         content: item.chats.message,
@@ -47,11 +49,13 @@ export const useChatStore = create<ChatState>((set, get) => ({
       set({ messages, historyLoaded: true });
     } catch (e) {
       console.error("Failed to load chat history", e);
+      set({ messages: [], historyLoaded: true }); // ✅ Prevent undefined
     }
   },
 
   sendMessage: async (text: string) => {
     if (!text.trim()) return;
+
     const token = localStorage.getItem("accessToken");
     if (!token) return;
 
@@ -61,23 +65,23 @@ export const useChatStore = create<ChatState>((set, get) => ({
       content: text
     };
 
+    // Append user message
     set((state) => ({
       messages: [...state.messages, userMsg],
       loading: true
     }));
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || "/api/proxy/v2"}/chat_room/copilot/stream`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ message: text })
-        }
-      );
+      const base = import.meta.env.VITE_API_BASE_URL || "/api/proxy/v2";
+
+      const response = await fetch(`${base}/chat_room/copilot/stream`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: text })
+      });
 
       if (!response.body) {
         throw new Error("No response body");
@@ -92,7 +96,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         content: ""
       };
 
-      // Push initial empty AI message
+      // Add placeholder empty assistant message
       set((state) => ({
         messages: [...state.messages, aiMsg]
       }));
@@ -101,29 +105,34 @@ export const useChatStore = create<ChatState>((set, get) => ({
       while (!done) {
         const { value, done: readerDone } = await reader.read();
         done = readerDone;
+
         if (done || !value) break;
 
         const chunk = decoder.decode(value);
+
         aiMsg = {
           ...aiMsg,
           content: aiMsg.content + chunk
         };
 
+        // Update the streaming message safely
         set((state) => ({
-          messages: state.messages.map((m) =>
+          messages: (state.messages ?? []).map((m) =>
             m.id === aiMsg.id ? aiMsg : m
           )
         }));
       }
     } catch (e) {
       console.error("Error while streaming from copilot", e);
+
       const errorMsg: ChatMessage = {
         id: Date.now() + 2,
         role: "error",
         content: "Something went wrong. Please try again."
       };
+
       set((state) => ({
-        messages: [...state.messages, errorMsg]
+        messages: [...(state.messages ?? []), errorMsg]
       }));
     } finally {
       set({ loading: false });
