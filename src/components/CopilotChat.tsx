@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useChatStore } from "../store/chatStore";
 import { Suggestions } from "./Suggestions";
-import MessageBubble from "./MessageBubble";
+import { MessageBubble } from "./MessageBubble";
 
-export default function CopilotChat() {
+export const CopilotChat: React.FC = () => {
   const { messages, loading, loadHistory, sendMessage } = useChatStore();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -43,4 +43,4 @@ export default function CopilotChat() {
       <Suggestions onSend={handleSend} />
     </div>
   );
-}
+};
